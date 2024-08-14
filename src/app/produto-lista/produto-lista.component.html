@@ -1,0 +1,20 @@
+<p>produto-lista works!</p>
+<h1>Olá Mundo {{nome}}!</h1>
+@if(produtos.length === 0){
+  <div>
+    <span>Nenhum produto cadastrado</span>
+  </div>
+}@else{
+  <ul>
+    @for(produto of produtos; track produto){
+      <li>
+        <span>{{produto}}</span>
+        <button>Editar</button>
+        <button (click)="apagarProduto(produto)">Apagar</button>
+      </li>
+    }
+  </ul>
+}
+<label for="nome">Nome</label>
+<input type="text" id="nome" [(ngModel)]="nomeProduto">
+<button (click)="cadastrarProduto()">Cadastrar</button>
