@@ -1,5 +1,4 @@
-<p>produto-lista works!</p>
-<h1>Olá Mundo {{nome}}!</h1>
+<h1>Lista de Produtos</h1>
 @if(produtos.length === 0){
   <div>
     <span>Nenhum produto cadastrado</span>
@@ -9,7 +8,7 @@
     @for(produto of produtos; track produto){
       <li>
         <span>{{produto}}</span>
-        <button>Editar</button>
+        <button (click)="editarProduto(produto)">Editar</button>
         <button (click)="apagarProduto(produto)">Apagar</button>
       </li>
     }
@@ -17,4 +16,8 @@
 }
 <label for="nome">Nome</label>
 <input type="text" id="nome" [(ngModel)]="nomeProduto">
-<button (click)="cadastrarProduto()">Cadastrar</button>
+<!-- <button (click)="salvarProduto()">Cadastrar</button>-->
+<button (click)="salvarProduto()">{{tituloBotaoSalvarProduto}}</button>
+@if(mensagemErro !== ""){
+  <span class="mensagem-erro">Error: {{mensagemErro}}</span>
+}

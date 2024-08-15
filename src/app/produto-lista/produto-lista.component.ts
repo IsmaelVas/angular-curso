@@ -10,21 +10,43 @@ import { FormsModule } from '@angular/forms';
 })
 export class ProdutoListaComponent {
   nomeProduto: string = '';
+  indiceAlterar: number = -1;
+  mensagemErro: string = '';
+  tituloBotaoSalvarProduto: string = 'Cadastrar';
 
   produtos: Array<string> = [
-    // "Iphone 14",
-    // "Motorola G7",
-    // "Xioame 9",
-    // "Nokia"
+    "Iphone 14",
+    "Motorola G7",
+    "Xioame 9",
+    "Nokia"
   ]
 
-  cadastrarProduto(){
+  salvarProduto(){
+    // Limpar mensagem de erro
+    this.mensagemErro = '';
+
+    if (this.nomeProduto.length < 3){
+      this.mensagemErro = "Produto deve conter no mínimo 3 caracteres";
+      return;
+    }
     // Verificar se o produto está cadastrado
     let existeProduto = this.produtos.some(x => x === this.nomeProduto);
-    if (existeProduto === true)
+    if (existeProduto === true) {
+      this.mensagemErro = `Produto já cadastrado com o nome '${this.nomeProduto}'`;
       return;
-    // Adicionar o nome do produto que o usuário preencheu no input na lista de produtos
-    this.produtos.push(this.nomeProduto)
+    }
+
+    if (this.indiceAlterar === -1) {
+      // Adicionar o nome do produto que o usuário preencheu no input na lista de produtos
+      this.produtos.push(this.nomeProduto)
+    } else {
+      // Alterar o nome do produto no indice
+      this.produtos[this.indiceAlterar] = this.nomeProduto;
+      // Reset para o usuário poder cadastrar novamente
+      this.indiceAlterar = -1
+      // Redefinir o texto do botão para cadastrar, para que o usuário saiba que está Cadastrando um produto.
+      this.tituloBotaoSalvarProduto = "Cadastrar";
+    }
     // Limpar campo
     this.nomeProduto = "";
   }
@@ -32,6 +54,12 @@ export class ProdutoListaComponent {
   apagarProduto(nomeProduto: string){
     let indiceProduto = this.produtos.findIndex(x => x === nomeProduto);
     this.produtos.splice(indiceProduto, 1)
+  }
+
+  editarProduto(nomeProduto : string){
+    this.indiceAlterar = this.produtos.findIndex(x => x === nomeProduto);
+    this.tituloBotaoSalvarProduto = "Editar"
+    this.nomeProduto = nomeProduto;
   }
 
 }
