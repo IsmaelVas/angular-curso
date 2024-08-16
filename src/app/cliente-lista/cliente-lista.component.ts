@@ -17,7 +17,7 @@ export class ClienteListaComponent {
   clientes: Array<string> = [
     "Francisco",
     "Ismael",
-    "Mateus com H"
+    "Vinicius sem v"
   ]
   
     salvarCliente(){
