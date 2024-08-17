@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { ProdutoListaComponent } from './produto-lista/produto-lista.component';
-import { ClienteListaComponent } from './cliente-lista/cliente-lista.component';
-import { FilmeListaComponent } from './filme-lista/filme-lista.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @Component({
   selector: 'app-root',
@@ -13,9 +11,7 @@ import { FilmeListaComponent } from './filme-lista/filme-lista.component';
     RouterLinkActive, // Diretiva usada para aplicar classes CSS dinamicamente em um link
     RouterOutlet, // Componente Angular que atua como um componente de ancoragem ou contâiner onde os componentes serão renderizados
     FormsModule,
-    ProdutoListaComponent,
-    ClienteListaComponent,
-    FilmeListaComponent,
+    NavbarComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

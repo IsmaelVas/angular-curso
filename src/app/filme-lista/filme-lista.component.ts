@@ -1,6 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
+import { CalendarModule } from 'primeng/calendar';
+import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
+import { TableModule } from 'primeng/table';
 
 interface Filme {
   id: number;
@@ -15,21 +22,38 @@ interface Filme {
 @Component({
   selector: 'app-filme-lista',
   standalone: true,
-  imports: [FormsModule],
+  imports: [
+    FormsModule,
+    ButtonModule,
+    TableModule,
+    DialogModule,
+    InputTextModule,
+    InputNumberModule,
+    CalendarModule,
+    DropdownModule,
+  ],
   templateUrl: './filme-lista.component.html',
   styleUrl: './filme-lista.component.css'
 })
 export class FilmeListaComponent {
   filmes: Array<Filme> = [];
   carregandoFilmes: boolean = false;
-  httpClient : HttpClient;
+  httpClient: HttpClient;
+
+  categorias = [
+    {"id": "Terror", "nome": "Terror"},
+    {"id": "Suspense", "nome": "Suspense"},
+    {"id": "Ação", "nome": "Ação"},
+  ]
+
+  visible: boolean = false;
 
   nome: string = "";
   duracao: number = 0;
   lancamento: string = "";
   autor: string = "";
   orcamento: number = 0;
-  categoria: string = "";
+  categoria: any = "";
 
   constructor(httpClient: HttpClient){
     this.httpClient = httpClient;
@@ -66,7 +90,7 @@ export class FilmeListaComponent {
       lancamento: this.lancamento,
       autor: this.autor,
       orcamento: this.orcamento,
-      categoria: this.categoria,
+      categoria: this.categoria["nome"],
     }
     this.httpClient.post("http://localhost:3000/filmes", dados).subscribe(x => this.aposSalvar(x));
   }
@@ -74,6 +98,7 @@ export class FilmeListaComponent {
   aposSalvar(x: any){
     this.limparCampos();
     this.consultar();
+    this.visible = false;
   }
 
   limparCampos(){
@@ -83,5 +108,13 @@ export class FilmeListaComponent {
     this.lancamento = "";
     this.orcamento = 0;
     this.categoria = "";
+  }
+
+  editar(){
+
+  }
+
+  showDialog(){
+    this.visible = true
   }
 }
