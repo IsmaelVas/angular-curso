@@ -24,6 +24,8 @@ export class NavbarComponent {
     {"label": "Clientes", command: () => this.navegar("/clientes") },
     {"label": "Produtos", command: () => this.navegar("/produtos") },
     {"label": "Filmes", command: () => this.navegar("/filmes") },
+    {"label": "RPG", command: () => this.navegar("/rpg") },
+
   ]
 
   navegar(navegateTo: string){

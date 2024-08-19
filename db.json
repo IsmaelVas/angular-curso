@@ -27,5 +27,34 @@
       "categoria": "Aventura",
       "id": "2d29"
     }
+  ],
+  "rpg": [
+    {
+      "id": "1",
+      "nome": "Flamme",
+      "idade": 33,
+      "altura": 1.8,
+      "raca": "Qareen",
+      "classe": "Arcanista",
+      "origem": "Amnésico"
+    },
+    {
+      "id": "2",
+      "nome": "Artur",
+      "idade": 25,
+      "altura": 1.75,
+      "raca": "Humano",
+      "classe": "Barbaro",
+      "origem": "Gladiador"
+    },
+    {
+      "id": "3",
+      "nome": "Tess",
+      "idade": 29,
+      "altura": 1.72,
+      "raca": "Elfa",
+      "classe": "Druida",
+      "origem": "Amigo dos animais"
+    }
   ]
 }

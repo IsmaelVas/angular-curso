@@ -1,0 +1,111 @@
+<h1>Lista de Personagem RPG</h1>
+
+<button (click)="consultar()">Consultar</button>
+
+<div class="flex justify-content-end">
+    <p-button (onClick)="showDialog()" label="Cadastrar" icon="pi pi-plus" size="small" />
+</div>
+
+@if(carregandoRpg === true){
+<span>Carregando Personagem Rpg...</span>
+} @else {
+
+<p-table [value]="rpg" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Código</th>
+            <th>Nome</th>
+            <th>Idade</th>
+            <th>Altura</th>
+            <th>Raça</th>
+            <th>Classe</th>
+            <th>Origem</th>
+            <th>Ação</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rpg>
+        <tr>
+            <td>{{rpg.id}}</td>
+            <td>{{rpg.nome}}</td>
+            <td>{{rpg.idade}}</td>
+            <td>{{rpg.altura}}</td>
+            <td>{{rpg.raca}}</td>
+            <td>{{rpg.classe}}</td>
+            <td>{{rpg.origem}}</td>
+            <td>
+                <p-button label="Editar" severity="primary" icon="pi pi-pencil" (click)="editar()" class="mr-2"
+                    size="small" />
+                <p-button label="Apagar" severity="danger" icon="pi pi-trash" (click)="apagar(rpg.id)" size="small" />
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+}
+
+<p-dialog
+    header="Cadastro de Personagem"
+    [modal]="true"
+    [(visible)]="visible"
+    [style]="{ width: '50rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+
+    <div class="flex align-items-center gap-3 mb-3">
+        <label for="nome" class="font-semibold w-6rem">Nome</label>
+        <input pInputText id="nome" class="flex-auto" autocomplete="off" [(ngModel)]="nome"/>
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="idade" class="font-semibold w-6rem">Idade</label>
+        <p-inputNumber 
+            [(ngModel)]="idade" 
+            inputId="idade" 
+            mode="decimal" 
+            [min]="0" 
+            [max]="1000" /> 
+    </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="altura" class="font-semibold w-6rem">altura</label>
+        <p-inputNumber 
+        [(ngModel)]="altura" 
+        inputId="altura" 
+        mode="decimal" 
+        [minFractionDigits]="2" 
+        [maxFractionDigits]="5" /> 
+    </div>
+    <div class="flex align-items-center gap-3 mb-3">
+        <label for="raca" class="font-semibold w-6rem">Raça</label>
+        <p-dropdown 
+            [options]="racas" 
+            [(ngModel)]="raca" 
+            optionLabel="nome" 
+            appendTo="body"
+            [filter]="true"
+            filterBy="nome"
+            placeholder="Escolha uma raça"/>
+    </div>
+    <div class="flex align-items-center gap-3 mb-3">
+        <label for="classe" class="font-semibold w-6rem">Classe</label>
+        <p-dropdown 
+            [options]="classes" 
+            [(ngModel)]="classe" 
+            optionLabel="nome" 
+            appendTo="body"
+            [filter]="true"
+            filterBy="nome"
+            placeholder="Escolha uma classe"/>
+    </div>
+    <div class="flex align-items-center gap-3 mb-3">
+        <label for="origem" class="font-semibold w-6rem">Origem</label>
+        <p-dropdown 
+            [options]="origens" 
+            [(ngModel)]="origem" 
+            optionLabel="nome" 
+            appendTo="body"
+            [filter]="true"
+            filterBy="nome"
+            placeholder="Escolha uma origem"/>
+    </div>
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Cancelar" severity="secondary" (onClick)="visible = false" />
+        <p-button label="Salvar" severity="success" icon="pi pi-check" (click)="salvar()" />
+    </div>
+</p-dialog>
