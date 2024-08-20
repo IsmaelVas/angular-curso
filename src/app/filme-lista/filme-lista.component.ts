@@ -1,13 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
 
 interface Filme {
   id: number;
@@ -31,14 +35,16 @@ interface Filme {
     InputNumberModule,
     CalendarModule,
     DropdownModule,
+    ToastModule,
+    ConfirmDialogModule,
   ],
+  providers: [ConfirmationService, MessageService],
   templateUrl: './filme-lista.component.html',
-  styleUrl: './filme-lista.component.css'
+  styleUrl: './filme-lista.component.css',
 })
 export class FilmeListaComponent {
   filmes: Array<Filme> = [];
   carregandoFilmes: boolean = false;
-  httpClient: HttpClient;
 
   categorias = [
     {"id": "Terror", "nome": "Terror"},
@@ -55,8 +61,12 @@ export class FilmeListaComponent {
   orcamento: number = 0;
   categoria: any = "";
 
-  constructor(httpClient: HttpClient){
-    this.httpClient = httpClient;
+  constructor(
+    private httpClient: HttpClient,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private router: Router,
+    ){
   }
 
   ngOnInit(){
@@ -74,13 +84,30 @@ export class FilmeListaComponent {
     
   }
 
-  apagar(id: number){
-    this.httpClient.delete(`http://localhost:3000/filmes/${id}`).subscribe(x => this.apagouRegistro());
+  apagar(filme: Filme){
+    this.confirmationService.confirm({
+      // target: event.target as EventTarget,
+      message: `Deseja realmente apagar?'${filme.nome}'?`,
+      header: 'CUIDADO',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: "Sim",
+      rejectLabel: "Não",
+      //acceptIcon:"Sim",
+      //rejectIcon:"Não",
+      rejectButtonStyleClass:"p-button-text",
+      accept: () => {
+          this.httpClient.delete(`http://localhost:3000/filmes/${filme.id}`).subscribe(x => this.apagouRegistro());
+      },
+      reject: () => {
+          this.messageService.add({ severity: 'success', detail: 'Seu registro não foi apagado.', life: 3000 });
+      }
+    });
   }
 
   apagouRegistro(){
+    this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Registro deletado com sucesso',  });
       // Atualizar os registros pois o filme foi apagado
-      this.consultar();
+    this.consultar();
   }
 
   salvar(){
@@ -110,8 +137,8 @@ export class FilmeListaComponent {
     this.categoria = "";
   }
 
-  editar(){
-
+  editar(id: number){
+    this.router.navigate([`/filmes/${id}`]);
   }
 
   showDialog(){
